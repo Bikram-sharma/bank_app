@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="./index.js" defer></script>
+
+    <title>bank-app</title>
+  </head>
+  <body>
+    <nav
+      class="w-full h-[10vh] bg-[#1B3C53] flex space-x-4 justify-end items-center px-20 text-white"
+    >
+      <button
+        id="accounts_button"
+        class="bg-[#456882] h-[60%] w-[10%] rounded-full hover:bg-[#1B3C53] cursor-pointer border-2 border-gray-500 border-green-500"
+      >
+        Accounts
+      </button>
+      <button
+        id="transactions_button"
+        class="bg-[#456882] h-[60%] w-[10%] rounded-full hover:bg-[#1B3C53] cursor-pointer border-2 border-gray-500"
+      >
+        Transactions
+      </button>
+    </nav>
+    <main class="w-full bg-[#D2C1B6] p-10">
+      <!-- Accounts-->
+      <div id="accounts" class="text-xl p-2">
+        <div
+          class="text-xl w-full h-15 bg-[#F9F3EF] p-2 grid grid-cols-6 gap-2 rounded-t-lg"
+        >
+          <p class="text-center underline">ID</p>
+          <p class="text-center underline">Account No.</p>
+          <p class="text-center underline">Pin_code</p>
+          <p class="text-center underline">Balance</p>
+          <p class="text-center underline">Created At</p>
+          <p class="text-center underline">Updated At</p>
+        </div>
+        <div
+          class="text-xl w-full h-15 bg-[#F9F3EF] p-2 grid grid-cols-6 gap-2"
+        >
+          <input
+            type="text"
+            readonly
+            class="focus:outline-none text-center border"
+          />
+          <input
+            type="text"
+            readonly
+            class="focus:outline-none text-center border"
+          />
+          <input
+            type="text"
+            readonly
+            class="focus:outline-none text-center border"
+          />
+          <input
+            type="text"
+            readonly
+            class="focus:outline-none text-center border"
+          />
+          <input
+            type="text"
+            readonly
+            class="focus:outline-none text-center border"
+          />
+          <input
+            type="text"
+            readonly
+            class="focus:outline-none text-center border"
+          />
+        </div>
+      </div>
+
+      <!--transactions-->
+      <div id="transactions" class="text-xl bg-red-400 rounded-xl p-2 hidden">
+        <div
+          class="text-xl w-full h-15 bg-[#F9F3EF] p-2 grid grid-cols-5 gap-2"
+        >
+          <p class="text-center underline">ID</p>
+          <p class="text-center underline">Amount</p>
+          <p class="text-center underline">From Account ID</p>
+          <p class="text-center underline">To Account ID</p>
+          <p class="text-center underline">Transacted At</p>
+        </div>
+        <div
+          class="text-xl w-full h-15 bg-[#F9F3EF] p-2 grid grid-cols-5 gap-2"
+        >
+          <input
+            type="text"
+            readonly
+            class="focus:outline-none text-center border"
+          />
+          <input
+            type="text"
+            readonly
+            class="focus:outline-none text-center border"
+          />
+          <input
+            type="text"
+            readonly
+            class="focus:outline-none text-center border"
+          />
+          <input
+            type="text"
+            readonly
+            class="focus:outline-none text-center border"
+          />
+          <input
+            type="text"
+            readonly
+            class="focus:outline-none text-center border"
+          />
+        </div>
+      </div>
+    </main>
+  </body>
+</html>
