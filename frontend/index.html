@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="./index.js" defer></script>
 
     <title>bank-app</title>
@@ -25,7 +26,7 @@
         Transactions
       </button>
     </nav>
-    <main class="w-full bg-[#D2C1B6] p-10">
+    <main class="w-full min-h-[90vh] bg-[#D2C1B6] p-10">
       <!-- Accounts-->
       <div id="accounts" class="text-xl p-2">
         <div
@@ -38,81 +39,18 @@
           <p class="text-center underline">Created At</p>
           <p class="text-center underline">Updated At</p>
         </div>
-        <div
-          class="text-xl w-full h-15 bg-[#F9F3EF] p-2 grid grid-cols-6 gap-2"
-        >
-          <input
-            type="text"
-            readonly
-            class="focus:outline-none text-center border"
-          />
-          <input
-            type="text"
-            readonly
-            class="focus:outline-none text-center border"
-          />
-          <input
-            type="text"
-            readonly
-            class="focus:outline-none text-center border"
-          />
-          <input
-            type="text"
-            readonly
-            class="focus:outline-none text-center border"
-          />
-          <input
-            type="text"
-            readonly
-            class="focus:outline-none text-center border"
-          />
-          <input
-            type="text"
-            readonly
-            class="focus:outline-none text-center border"
-          />
-        </div>
       </div>
 
       <!--transactions-->
-      <div id="transactions" class="text-xl bg-red-400 rounded-xl p-2 hidden">
+      <div id="transactions" class="text-xl p-2 hidden">
         <div
-          class="text-xl w-full h-15 bg-[#F9F3EF] p-2 grid grid-cols-5 gap-2"
+          class="text-xl w-full h-15 bg-[#F9F3EF] p-2 grid grid-cols-5 gap-2 rounded-t-lg"
         >
           <p class="text-center underline">ID</p>
           <p class="text-center underline">Amount</p>
           <p class="text-center underline">From Account ID</p>
           <p class="text-center underline">To Account ID</p>
           <p class="text-center underline">Transacted At</p>
-        </div>
-        <div
-          class="text-xl w-full h-15 bg-[#F9F3EF] p-2 grid grid-cols-5 gap-2"
-        >
-          <input
-            type="text"
-            readonly
-            class="focus:outline-none text-center border"
-          />
-          <input
-            type="text"
-            readonly
-            class="focus:outline-none text-center border"
-          />
-          <input
-            type="text"
-            readonly
-            class="focus:outline-none text-center border"
-          />
-          <input
-            type="text"
-            readonly
-            class="focus:outline-none text-center border"
-          />
-          <input
-            type="text"
-            readonly
-            class="focus:outline-none text-center border"
-          />
         </div>
       </div>
     </main>
