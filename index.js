@@ -29,6 +29,17 @@ app.get("/transactions", async (req, res) => {
   }
 });
 
+app.post("/addtransaction", async (req, res) => {
+  const { amount, from_account_id, to_account_id } = req.body;
+  try {
+    await db("transactions").insert({ amount, from_account_id, to_account_id });
+    res.json({ message: "transaction updated successfully" });
+  } catch (error) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to insert transaction" });
+  }
+});
+
 app.listen(port, () => {
   console.log("Server running at 4000");
 });

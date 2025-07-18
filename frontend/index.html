@@ -26,9 +26,23 @@
         Transactions
       </button>
     </nav>
-    <main class="w-full min-h-[90vh] bg-[#D2C1B6] p-10">
+    <main class="w-full min-h-[90vh] bg-[#D2C1B6] px-10 py-5">
       <!-- Accounts-->
       <div id="accounts" class="text-xl p-2">
+        <div class="w-full h-12 flex justify-end mb-2 space-x-4">
+          <button
+            id="add_button"
+            class="h-full w-[15%] rounded-full hover:bg-green-700 hover:text-white cursor-pointer border-2 border-green-600"
+          >
+            Create Account
+          </button>
+          <button
+            id="add_button"
+            class="h-full w-[15%] rounded-full hover:bg-red-700 hover:text-white cursor-pointer border-2 border-red-600"
+          >
+            Delete Account
+          </button>
+        </div>
         <div
           class="text-xl w-full h-15 bg-[#F9F3EF] p-2 grid grid-cols-6 gap-2 rounded-t-lg"
         >
@@ -43,6 +57,14 @@
 
       <!--transactions-->
       <div id="transactions" class="text-xl p-2 hidden">
+        <div class="w-full h-12 flex justify-end mb-2 space-x-4">
+          <button
+            id="initiate_transaction"
+            class="h-full w-[15%] rounded-full hover:bg-green-700 hover:text-white cursor-pointer border-2 border-green-600"
+          >
+            Initiate Transaction
+          </button>
+        </div>
         <div
           class="text-xl w-full h-15 bg-[#F9F3EF] p-2 grid grid-cols-5 gap-2 rounded-t-lg"
         >
