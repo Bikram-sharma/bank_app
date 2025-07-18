@@ -20,68 +20,81 @@ transactionsButton.onclick = () => {
 
 // insert accounts data in document
 function getaccounts() {
-  axios.get("http://localhost:4000/accounts").then((response) => {
-    console.log(response.data);
-    const orderKey = [
-      "id",
-      "number",
-      "pin_code",
-      "balance",
-      "created_at",
-      "updated_at",
-    ];
+  axios
+    .get("http://localhost:4000/accounts")
+    .then((response) => {
+      while (transactions.children.length > 2) {
+        transactions.removeChild(transactions.lastChild);
+      }
+      console.log(response.data);
+      const orderKey = [
+        "id",
+        "number",
+        "pin_code",
+        "balance",
+        "created_at",
+        "updated_at",
+      ];
 
-    response.data.forEach((account) => {
-      const cell = document.createElement("div");
-      cell.classList =
-        "text-base w-full h-15 bg-[#F9F3EF] p-2 grid grid-cols-6 gap-2";
-      const orderedValues = orderKey.map((key) => account[key]);
-      orderedValues.forEach((value) => {
-        const input = document.createElement("input");
-        input.setAttribute("type", "text");
-        input.readOnly = true;
-        input.classList = "focus:outline-none text-center border";
-        input.value = value;
-        cell.appendChild(input);
+      response.data.forEach((account) => {
+        const cell = document.createElement("div");
+        cell.classList =
+          "text-base w-full h-15 bg-[#F9F3EF] p-2 grid grid-cols-6 gap-2";
+        const orderedValues = orderKey.map((key) => account[key]);
+        orderedValues.forEach((value) => {
+          const input = document.createElement("input");
+          input.setAttribute("type", "text");
+          input.readOnly = true;
+          input.classList = "focus:outline-none text-center border";
+          input.value = value;
+          cell.appendChild(input);
+        });
+        accounts.appendChild(cell);
       });
-      accounts.appendChild(cell);
+    })
+    .catch((error) => {
+      console.error("Failed to fetch accounts", error);
     });
-  });
 }
 getaccounts();
 
 // insert transactions data in document
 
 function getTransactions() {
-  axios.get("http://localhost:4000/transactions").then((response) => {
-    while (transactions.children.length > 2) {
-      transactions.removeChild(transactions.lastChild);
-    }
-    console.log(response.data);
-    const orderKey = [
-      "id",
-      "amount",
-      "from_account_id",
-      "to_account_id",
-      "transacted_at",
-    ];
+  axios
+    .get("http://localhost:4000/transactions")
+    .then((response) => {
+      while (transactions.children.length > 2) {
+        transactions.removeChild(transactions.lastChild);
+      }
+      console.log(response.data);
+      const orderKey = [
+        "id",
+        "amount",
+        "from_account_id",
+        "to_account_id",
+        "transacted_at",
+      ];
 
-    response.data.forEach((transaction) => {
-      const cell = document.createElement("div");
-      cell.classList =
-        "text-base w-full h-15 bg-[#F9F3EF] p-2 grid grid-cols-5 gap-2";
-      const orderedValues = orderKey.map((key) => transaction[key]);
-      orderedValues.forEach((value) => {
-        const input = document.createElement("input");
-        input.setAttribute("type", "text");
-        input.readOnly = true;
-        input.classList = "focus:outline-none text-center border";
-        input.value = value;
-        cell.appendChild(input);
+      response.data.forEach((transaction) => {
+        const cell = document.createElement("div");
+        cell.classList =
+          "text-base w-full h-15 bg-[#F9F3EF] p-2 grid grid-cols-5 gap-2";
+        const orderedValues = orderKey.map((key) => transaction[key]);
+        orderedValues.forEach((value) => {
+          const input = document.createElement("input");
+          input.setAttribute("type", "text");
+          input.readOnly = true;
+          input.classList = "focus:outline-none text-center border";
+          input.value = value;
+          cell.appendChild(input);
+        });
+        transactions.appendChild(cell);
       });
-      transactions.appendChild(cell);
+    })
+    .catch((error) => {
+      console.error("Failed to fetch transactions", error);
     });
-  });
 }
 getTransactions();
 
@@ -127,10 +140,17 @@ function submitTransaction(form) {
   const formData = new FormData(form);
   const body = Object.fromEntries(formData);
   console.log(body);
-  axios.post("http://localhost:4000/addtransaction", body).then((response) => {
-    console.log(response.data.message);
-    getTransactions();
-  });
+  axios
+    .post("http://localhost:4000/addtransaction", body)
+    .then((response) => {
+      console.log(response.data.message);
+      getTransactions();
+      getaccounts();
+      window.location.reload();
+    })
+    .catch((error) => {
+      console.error("transaction Failed", error);
+    });
 
   form.remove();
 }
