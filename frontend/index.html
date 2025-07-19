@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="./index.js" defer type="module"></script>
 
     <title>bank-app</title>
@@ -26,10 +27,15 @@
         Transactions
       </button>
     </nav>
-    <main class="w-full min-h-[90vh] bg-[#D2C1B6] px-10 py-5">
+    <main class="w-full h-[90vh] bg-[#D2C1B6] px-10 py-5">
       <!-- Accounts-->
-      <div id="accounts" class="text-xl p-2">
-        <div class="w-full h-12 flex justify-end mb-2 space-x-4">
+      <div
+        id="accounts"
+        class="text-xl h-[85vh] overflow-y-scroll bg-[#F9F3EF]"
+      >
+        <div
+          class="w-full h-12 flex justify-end space-x-4 sticky top-0 z-10 bg-[#D2C1B6]"
+        >
           <button
             id="add_button"
             class="h-full w-[15%] rounded-full hover:bg-green-700 hover:text-white cursor-pointer border-2 border-green-600"
@@ -37,21 +43,33 @@
             Create Account
           </button>
           <button
-            id="add_button"
+            id="delete_button"
             class="h-full w-[15%] rounded-full hover:bg-red-700 hover:text-white cursor-pointer border-2 border-red-600"
           >
             Delete Account
           </button>
         </div>
         <div
-          class="text-xl w-full h-15 bg-[#F9F3EF] p-2 grid grid-cols-6 gap-2 rounded-t-lg"
+          class="text-xl w-full h-15 bg-[#D2C1B6] p-2 grid grid-cols-6 gap-2 sticky top-12 z-10 border-gray-500"
         >
-          <p class="text-center underline">ID</p>
-          <p class="text-center underline">Account No.</p>
-          <p class="text-center underline">Pin_code</p>
-          <p class="text-center underline">Balance</p>
-          <p class="text-center underline">Created At</p>
-          <p class="text-center underline">Updated At</p>
+          <p class="text-center underline grid place-items-center border-2">
+            ID
+          </p>
+          <p class="text-center underline grid place-items-center border-2">
+            Account No.
+          </p>
+          <p class="text-center underline grid place-items-center border-2">
+            Pin_code
+          </p>
+          <p class="text-center underline grid place-items-center border-2">
+            Balance
+          </p>
+          <p class="text-center underline grid place-items-center border-2">
+            Created At
+          </p>
+          <p class="text-center underline grid place-items-center border-2">
+            Updated At
+          </p>
         </div>
       </div>
 
