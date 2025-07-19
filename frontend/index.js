@@ -1,3 +1,6 @@
+import accountNumber from "../halpers/accountNumber.js";
+import pinCode from "../halpers/pinCode.js";
+
 const accountsButton = document.getElementById("accounts_button");
 const transactionsButton = document.getElementById("transactions_button");
 const accounts = document.getElementById("accounts");
@@ -23,8 +26,8 @@ function getaccounts() {
   axios
     .get("http://localhost:4000/accounts")
     .then((response) => {
-      while (transactions.children.length > 2) {
-        transactions.removeChild(transactions.lastChild);
+      while (accounts.children.length > 2) {
+        accounts.removeChild(accounts.lastChild);
       }
       console.log(response.data);
       const orderKey = [
@@ -154,3 +157,27 @@ function submitTransaction(form) {
 
   form.remove();
 }
+
+// create Account
+
+const createButton = document.getElementById("add_button");
+createButton.onclick = () => {
+  let number = accountNumber();
+  let pin_code = pinCode();
+  let balance = 0;
+
+  axios
+    .post("http://localhost:4000/createaccount", {
+      number,
+      pin_code,
+      balance,
+    })
+    .then((response) => {
+      alert(response.data.message);
+      getaccounts();
+    })
+    .catch((error) => {
+      alert("Filed to create Account");
+      console.log(error);
+    });
+};

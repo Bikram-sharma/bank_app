@@ -78,6 +78,17 @@ app.post("/addtransaction", async (req, res) => {
   }
 });
 
+app.post("/createaccount", async (req, res) => {
+  const { balance, number, pin_code } = req.body;
+
+  if (balance == null || !number || !pin_code) {
+    res.status(400).json({ message: "All field are required" });
+    return;
+  }
+  await db("accounts").insert({ balance, number, pin_code });
+  res.status(201).json({ message: "Account Created Successfully" });
+});
+
 app.listen(port, () => {
   console.log("Server running at 4000");
 });
