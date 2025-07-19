@@ -9,6 +9,8 @@ const port = 4000;
 
 const db = knex(knexConfig.development);
 
+// send accounts
+
 app.get("/accounts", async (req, res) => {
   try {
     const accounts = await db("accounts").select("*");
@@ -18,6 +20,8 @@ app.get("/accounts", async (req, res) => {
     res.status(500).json({ error: "Failed to fetch account" });
   }
 });
+
+// send transactions
 
 app.get("/transactions", async (req, res) => {
   try {
@@ -29,7 +33,9 @@ app.get("/transactions", async (req, res) => {
   }
 });
 
-app.post("/addtransaction", async (req, res) => {
+//  create transactions
+
+app.post("/createtransaction", async (req, res) => {
   const { amount, from_account_id, to_account_id } = req.body;
   const numericAmount = Number(amount);
   try {
@@ -78,6 +84,8 @@ app.post("/addtransaction", async (req, res) => {
   }
 });
 
+// create Account
+
 app.post("/createaccount", async (req, res) => {
   const { balance, number, pin_code } = req.body;
 
@@ -85,8 +93,40 @@ app.post("/createaccount", async (req, res) => {
     res.status(400).json({ message: "All field are required" });
     return;
   }
-  await db("accounts").insert({ balance, number, pin_code });
-  res.status(201).json({ message: "Account Created Successfully" });
+  try {
+    await db("accounts").insert({ balance, number, pin_code });
+    res.status(201).json({ message: "Account Created Successfully" });
+  } catch (error) {
+    console.error("Error creating account:", error);
+    res.status(500).json({ message: "Internal server error." });
+  }
+});
+
+//delete Account
+
+app.delete("/:number", async (req, res) => {
+  const number = req.params.number;
+
+  if (number.length != 9) {
+    return res.status(400).json({ message: "Invalid Account Number!" });
+  }
+  try {
+    const account = await db("accounts").where("number", number).first();
+
+    if (!account) {
+      return res
+        .status(404)
+        .json({ message: `Account Number #${number} not found!` });
+    }
+
+    await db("accounts").where("number", number).del();
+    return res
+      .status(200)
+      .json({ message: `Account #${number} deleted successfully.` });
+  } catch (error) {
+    console.error("Error deleting account:", error);
+    res.status(500).json({ message: "Internal server error." });
+  }
 });
 
 app.listen(port, () => {

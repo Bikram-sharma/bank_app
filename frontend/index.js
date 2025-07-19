@@ -144,7 +144,7 @@ function submitTransaction(form) {
   const body = Object.fromEntries(formData);
   console.log(body);
   axios
-    .post("http://localhost:4000/addtransaction", body)
+    .post("http://localhost:4000/createtransaction", body)
     .then((response) => {
       console.log(response.data.message);
       getTransactions();
@@ -173,11 +173,70 @@ createButton.onclick = () => {
       balance,
     })
     .then((response) => {
-      alert(response.data.message);
+      console.log(response.data.message);
+      Swal.fire({
+        title: "Success!",
+        text: `Your account has been successfully created. Please note your account number: ${number}`,
+        icon: "success",
+        confirmButtonText: "OK",
+      });
       getaccounts();
     })
     .catch((error) => {
-      alert("Filed to create Account");
+      Swal.fire({
+        title: "Success!",
+        text: "Filed to create Account",
+        icon: "success",
+        confirmButtonText: "OK",
+      });
       console.log(error);
     });
+};
+
+// delete account
+
+const deleteButton = document.getElementById("delete_button");
+
+deleteButton.onclick = () => {
+  Swal.fire({
+    title: "Enter Account to Delete",
+    input: "number",
+    inputLabel: "Account Number",
+    inputPlaceholder: "account number...",
+    showCancelButton: true,
+    confirmButtonText: "Delete",
+    confirmButtonColor: "#d33",
+    didOpen: () => {
+      const input = Swal.getInput();
+      input.style.border = "2px solid red";
+      input.style.outline = "none";
+    },
+  }).then((result) => {
+    if (!result.value) return;
+    axios
+      .delete(`http://localhost:4000/${result.value}`)
+      .then((response) => {
+        console.log(response.data.message);
+
+        Swal.fire({
+          title: "Success!",
+          text: `Account #${result.value} deleted Successfully`,
+          icon: "success",
+          confirmButtonText: "OK",
+        }).then((result) => {
+          result.isConfirmed ? getaccounts() : "";
+        });
+      })
+      .catch((error) => {
+        console.log(error.message);
+        Swal.fire({
+          title: "Failed",
+          text: `Unable to delete account #${result.value}. Please try again.`,
+          icon: "error",
+          confirmButtonText: "OK",
+        }).then((result) => {
+          result.isConfirmed ? location.reload() : "";
+        });
+      });
+  });
 };
