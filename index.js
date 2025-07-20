@@ -77,10 +77,15 @@ app.post("/createtransaction", async (req, res) => {
     });
     res.json({ message: "transaction updated successfully" });
   } catch (error) {
-    console.error(error);
-    res
-      .status(500)
-      .json({ error: error.message || "Failed to insert transaction" });
+    console.error("Transaction error:", error.message);
+    if (
+      error.message === "Sender account not found" ||
+      error.message === "Receiver account not found" ||
+      error.message === "Insufficient balance"
+    ) {
+      return res.status(400).json({ error: error.message });
+    }
+    res.status(500).json({ error: "Server error. Please try again later." });
   }
 });
 
@@ -159,6 +164,14 @@ app.post("/withdraw", async (req, res) => {
       .json({ message: "Account Number and amount are needed!" });
   }
   try {
+    const account = await db("accounts")
+      .select("*")
+      .where("number", number)
+      .first();
+    if (account.balance < amount) {
+      return res.status(400).json({ message: "Insufficient balance" });
+    }
+
     await db("accounts").where("number", number).decrement("balance", amount);
     res.status(200).json({ message: "withdraw successful" });
   } catch (error) {

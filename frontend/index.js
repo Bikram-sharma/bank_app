@@ -179,7 +179,8 @@ function submitTransaction(form) {
       console.error("transaction Failed", error);
       Swal.fire({
         title: "Failed!",
-        text: `Transaction Failed!. Please try again.`,
+        text:
+          error.response.data.error || `Transaction Failed!. Please try again.`,
         icon: "error",
         confirmButtonText: "OK",
       });
@@ -342,7 +343,9 @@ function withdraw(number) {
           console.log(error.message);
           Swal.fire({
             title: "Failed",
-            text: `Unable to withdraw. Please try again.`,
+            text:
+              error.response.data.message ||
+              `Unable to withdraw. Please try again.`,
             icon: "error",
             confirmButtonText: "OK",
           }).then((result) => {
