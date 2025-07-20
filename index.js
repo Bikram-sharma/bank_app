@@ -13,7 +13,7 @@ const db = knex(knexConfig.development);
 
 app.get("/accounts", async (req, res) => {
   try {
-    const accounts = await db("accounts").select("*");
+    const accounts = await db("accounts").select("*").orderBy("id", "asc");
     res.json(accounts);
   } catch (error) {
     console.error(err);
@@ -69,11 +69,11 @@ app.post("/createtransaction", async (req, res) => {
 
       await trx("accounts")
         .where("id", from_account_id)
-        .update({ balance: Number(from.balance) - numericAmount });
+        .decrement("balance", numericAmount);
 
       await trx("accounts")
         .where("id", to_account_id)
-        .update({ balance: Number(to.balance) + numericAmount });
+        .increment("balance", numericAmount);
     });
     res.json({ message: "transaction updated successfully" });
   } catch (error) {
@@ -125,6 +125,44 @@ app.delete("/:number", async (req, res) => {
       .json({ message: `Account #${number} deleted successfully.` });
   } catch (error) {
     console.error("Error deleting account:", error);
+    res.status(500).json({ message: "Internal server error." });
+  }
+});
+
+// deposit
+
+app.post("/deposit", async (req, res) => {
+  const { number, amount } = req.body;
+
+  if (!number || !amount) {
+    return res
+      .status(400)
+      .json({ message: "Account Number and amount are needed!" });
+  }
+  try {
+    await db("accounts").where("number", number).increment("balance", amount);
+    res.status(200).json({ message: "deposit successful" });
+  } catch (error) {
+    console.error("Error depositing:", error);
+    res.status(500).json({ message: "Internal server error." });
+  }
+});
+
+// withdraw
+
+app.post("/withdraw", async (req, res) => {
+  const { number, amount } = req.body;
+
+  if (!number || !amount) {
+    return res
+      .status(400)
+      .json({ message: "Account Number and amount are needed!" });
+  }
+  try {
+    await db("accounts").where("number", number).decrement("balance", amount);
+    res.status(200).json({ message: "withdraw successful" });
+  } catch (error) {
+    console.error("Error withdrawing:", error);
     res.status(500).json({ message: "Internal server error." });
   }
 });

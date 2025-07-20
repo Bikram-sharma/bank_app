@@ -44,13 +44,31 @@ function getaccounts() {
         cell.classList =
           "text-base w-full h-15 bg-[#F9F3EF] p-2 grid grid-cols-6 gap-2";
         const orderedValues = orderKey.map((key) => account[key]);
-        orderedValues.forEach((value) => {
-          const input = document.createElement("input");
-          input.setAttribute("type", "text");
-          input.readOnly = true;
-          input.classList = "focus:outline-none text-center border";
-          input.value = value;
-          cell.appendChild(input);
+        orderedValues.forEach((value, index) => {
+          const record = document.createElement("div");
+
+          if (index === 3) {
+            record.classList = "flex justify-between border items-center px-2";
+            const depositButton = document.createElement("button");
+            depositButton.title = "Deposit";
+            depositButton.onclick = () => deposit(orderedValues[1]);
+            depositButton.className =
+              "w-6 h-6 bg-[url('./images/deposit.png')] bg-contain bg-no-repeat bg-center cursor-pointer";
+            record.appendChild(depositButton);
+            const span = document.createElement("span");
+            span.innerText = value;
+            record.appendChild(span);
+            const withdrawalButton = document.createElement("div");
+            withdrawalButton.title = "Withdrawal";
+            withdrawalButton.onclick = () => withdraw(orderedValues[1]);
+            withdrawalButton.classList =
+              "w-6 h-6 bg-[url('./images/withdrawal.png')] bg-contain bg-no-repeat bg-center cursor-pointer";
+            record.appendChild(withdrawalButton);
+          } else {
+            record.classList = "border grid place-items-center";
+            record.innerText = value;
+          }
+          cell.appendChild(record);
         });
         accounts.appendChild(cell);
       });
@@ -137,6 +155,7 @@ initiate_button.onclick = () => {
     submitTransaction(form);
   });
   transactions.appendChild(form);
+  transactions.scrollTop = transactions.scrollHeight;
 };
 
 function submitTransaction(form) {
@@ -147,12 +166,23 @@ function submitTransaction(form) {
     .post("http://localhost:4000/createtransaction", body)
     .then((response) => {
       console.log(response.data.message);
+      Swal.fire({
+        title: "Success!",
+        text: `successfully transfered $${body.amount} from Account ID ${body.from_account_id} to ${body.to_account_id}`,
+        icon: "success",
+        confirmButtonText: "OK",
+      });
       getTransactions();
       getaccounts();
-      window.location.reload();
     })
     .catch((error) => {
       console.error("transaction Failed", error);
+      Swal.fire({
+        title: "Failed!",
+        text: `Transaction Failed!. Please try again.`,
+        icon: "error",
+        confirmButtonText: "OK",
+      });
     });
 
   form.remove();
@@ -240,3 +270,85 @@ deleteButton.onclick = () => {
       });
   });
 };
+
+// deposit
+
+function deposit(number) {
+  Swal.fire({
+    title: "Enter Account",
+    input: "number",
+    inputLabel: "Amount you want to deposit",
+    inputPlaceholder: "amount...",
+    showCancelButton: true,
+    confirmButtonText: "Deposit",
+    confirmButtonColor: "green",
+  }).then((result) => {
+    if (result.value) {
+      const amount = Number(result.value);
+      axios
+        .post("http://localhost:4000/deposit", { number, amount })
+        .then((response) => {
+          Swal.fire({
+            title: "Success!",
+            text: `Successfully deposited $${amount} to the account #${number}`,
+            icon: "success",
+            confirmButtonText: "OK",
+          }).then((result) => {
+            result.isConfirmed ? getaccounts() : "";
+          });
+        })
+        .catch((error) => {
+          console.log(error.message);
+          Swal.fire({
+            title: "Failed",
+            text: `Unable to Deposit. Please try again.`,
+            icon: "error",
+            confirmButtonText: "OK",
+          }).then((result) => {
+            result.isConfirmed ? location.reload() : "";
+          });
+        });
+    }
+  });
+}
+
+// withdraw
+
+function withdraw(number) {
+  Swal.fire({
+    title: "Enter Account",
+    input: "number",
+    inputLabel: "Amount you want to withdraw",
+    inputPlaceholder: "amount...",
+    showCancelButton: true,
+    confirmButtonText: "withdraw",
+    confirmButtonColor: "green",
+  }).then((result) => {
+    if (result.value) {
+      const amount = Number(result.value);
+      axios
+        .post("http://localhost:4000/withdraw", { number, amount })
+        .then((response) => {
+          Swal.fire({
+            title: "Success!",
+            text: `$${amount} has been withdrawn from account #${number}`,
+            icon: "success",
+            confirmButtonText: "OK",
+          }).then((result) => {
+            result.isConfirmed ? getaccounts() : "";
+          });
+        })
+        .catch((error) => {
+          console.log(error.message);
+          Swal.fire({
+            title: "Failed",
+            text: `Unable to withdraw. Please try again.`,
+            icon: "error",
+            confirmButtonText: "OK",
+          }).then((result) => {
+            result.isConfirmed ? location.reload() : "";
+          });
+        });
+    }
+  });
+}

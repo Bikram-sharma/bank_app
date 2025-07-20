@@ -74,8 +74,13 @@
       </div>
 
       <!--transactions-->
-      <div id="transactions" class="text-xl p-2 hidden">
-        <div class="w-full h-12 flex justify-end mb-2 space-x-4">
+      <div
+        id="transactions"
+        class="text-xl h-[85vh] overflow-y-scroll bg-[#F9F3EF] hidden"
+      >
+        <div
+          class="w-full h-12 flex justify-end space-x-4 bg-[#D2C1B6] sticky top-0"
+        >
           <button
             id="initiate_transaction"
             class="h-full w-[15%] rounded-full hover:bg-green-700 hover:text-white cursor-pointer border-2 border-green-600"
@@ -84,13 +89,23 @@
           </button>
         </div>
         <div
-          class="text-xl w-full h-15 bg-[#F9F3EF] p-2 grid grid-cols-5 gap-2 rounded-t-lg"
+          class="text-xl w-full h-15 bg-[#D2C1B6] p-2 grid grid-cols-5 gap-2 sticky top-12"
         >
-          <p class="text-center underline">ID</p>
-          <p class="text-center underline">Amount</p>
-          <p class="text-center underline">From Account ID</p>
-          <p class="text-center underline">To Account ID</p>
-          <p class="text-center underline">Transacted At</p>
+          <p class="text-center underline grid place-items-center border-2">
+            ID
+          </p>
+          <p class="text-center underline grid place-items-center border-2">
+            Amount
+          </p>
+          <p class="text-center underline grid place-items-center border-2">
+            From Account ID
+          </p>
+          <p class="text-center underline grid place-items-center border-2">
+            To Account ID
+          </p>
+          <p class="text-center underline grid place-items-center border-2">
+            Transacted At
+          </p>
         </div>
       </div>
     </main>
