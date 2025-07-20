@@ -41,8 +41,7 @@ function getaccounts() {
 
       response.data.forEach((account) => {
         const cell = document.createElement("div");
-        cell.classList =
-          "text-base w-full h-15 bg-[#F9F3EF] p-2 grid grid-cols-6 gap-2";
+        cell.classList = "text-base w-full h-15  p-2 grid grid-cols-6 gap-2";
         const orderedValues = orderKey.map((key) => account[key]);
         orderedValues.forEach((value, index) => {
           const record = document.createElement("div");
@@ -65,7 +64,8 @@ function getaccounts() {
               "w-6 h-6 bg-[url('./images/withdrawal.png')] bg-contain bg-no-repeat bg-center cursor-pointer";
             record.appendChild(withdrawalButton);
           } else {
-            record.classList = "border grid place-items-center";
+            record.classList =
+              "border border-[#1B3C53] grid place-items-center";
             record.innerText = value;
           }
           cell.appendChild(record);
@@ -99,16 +99,13 @@ function getTransactions() {
 
       response.data.forEach((transaction) => {
         const cell = document.createElement("div");
-        cell.classList =
-          "text-base w-full h-15 bg-[#F9F3EF] p-2 grid grid-cols-5 gap-2";
+        cell.classList = "text-base w-full h-15 p-2 grid grid-cols-5 gap-2";
         const orderedValues = orderKey.map((key) => transaction[key]);
         orderedValues.forEach((value) => {
-          const input = document.createElement("input");
-          input.setAttribute("type", "text");
-          input.readOnly = true;
-          input.classList = "focus:outline-none text-center border";
-          input.value = value;
-          cell.appendChild(input);
+          const record = document.createElement("div");
+          record.classList = "border border-[#1B3C53] grid place-items-center";
+          record.innerText = value;
+          cell.appendChild(record);
         });
         transactions.appendChild(cell);
       });
@@ -215,9 +212,9 @@ createButton.onclick = () => {
     })
     .catch((error) => {
       Swal.fire({
-        title: "Success!",
+        title: "Failed!",
         text: "Filed to create Account",
-        icon: "success",
+        icon: "error",
         confirmButtonText: "OK",
       });
       console.log(error);
