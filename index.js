@@ -124,6 +124,11 @@ app.delete("/:number", async (req, res) => {
         .json({ message: `Account Number #${number} not found!` });
     }
 
+    const {balance} = await db ("accounts").select("balance").where ("number",number).first();
+      if(balance > 0){
+        return res.status(400).json({message: "Clear your balance before deleting"});
+      }
+
     await db("accounts").where("number", number).del();
     return res
       .status(200)
