@@ -259,7 +259,9 @@ deleteButton.onclick = () => {
         console.log(error.response.data.message);
         Swal.fire({
           title: "Failed",
-          text: error.response.data.message ||`Unable to delete account #${result.value}. Please try again.`,
+          text:
+            error.response.data.message ||
+            `Unable to delete account #${result.value}. Please try again.`,
           icon: "error",
           confirmButtonText: "OK",
         }).then((result) => {
