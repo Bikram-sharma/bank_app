@@ -124,10 +124,15 @@ app.delete("/:number", async (req, res) => {
         .json({ message: `Account Number #${number} not found!` });
     }
 
-    const {balance} = await db ("accounts").select("balance").where ("number",number).first();
-      if(balance > 0){
-        return res.status(400).json({message: "Clear your balance before deleting"});
-      }
+    const { balance } = await db("accounts")
+      .select("balance")
+      .where("number", number)
+      .first();
+    if (balance > 0) {
+      return res
+        .status(400)
+        .json({ message: "Clear your balance before deleting" });
+    }
 
     await db("accounts").where("number", number).del();
     return res
@@ -181,6 +186,39 @@ app.post("/withdraw", async (req, res) => {
     res.status(200).json({ message: "withdraw successful" });
   } catch (error) {
     console.error("Error withdrawing:", error);
+    res.status(500).json({ message: "Internal server error." });
+  }
+});
+
+// login
+
+app.post("/login", async (req, res) => {
+  const { number, pin_code } = req.body;
+  try {
+    const account = await db("accounts").where("number", number).first();
+    if (account.pin_code === pin_code) {
+      return res.status(200).json({ number });
+    }
+    return res.status(404).json({ message: "Account not found!" });
+  } catch (error) {
+    console.error("Error loging in", error);
+    res.status(500).json({ message: "Internal server error." });
+  }
+});
+
+// for dashboard account Details
+app.get("/user/account/:number", async (req, res) => {
+  const number = req.params.number;
+  try {
+    const account = await db("accounts").where("number", number).first();
+    if (!account) {
+      return res.status(404).json({ message: "Account not found!" });
+    }
+    return res
+      .status(200)
+      .json({ number: account.number, balance: account.balance });
+  } catch (error) {
+    console.error(error);
     res.status(500).json({ message: "Internal server error." });
   }
 });
