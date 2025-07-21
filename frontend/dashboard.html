@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <title>DashBoard</title>
+  </head>
+  <body>
+    <nav
+      class="w-full h-[10vh] bg-[#1B3C53] flex justify-between items-center px-10 text-white shadow-md"
+    >
+      <h2 class="text-xl font-semibold tracking-wide">Account Dashboard</h2>
+      <button
+        class="bg-[#22475F] text-[#D2C1B6] px-6 py-2 rounded-full border border-[#D2C1B6] hover:bg-[#163242] hover:text-white transition-all duration-300 ease-in-out"
+      >
+        Log out
+      </button>
+    </nav>
+
+    <div class="flex justify-center mt-20 px-4">
+      <div
+        class="p-6 bg-white rounded-xl shadow-2xl w-full max-w-2xl border border-gray-200"
+      >
+        <h1 class="text-center text-3xl font-bold text-[#1B3C53] mb-8">
+          Dashboard
+        </h1>
+        <table
+          class="table-auto w-full border-collapse rounded overflow-hidden"
+        >
+          <colgroup>
+            <col class="w-1/3" />
+            <col class="w-2/3" />
+          </colgroup>
+          <thead>
+            <tr class="bg-[#1B3C53] text-white">
+              <th class="p-4 text-center">Field</th>
+              <th class="p-4 text-center">Detail</th>
+            </tr>
+          </thead>
+          <tbody class="text-gray-700">
+            <tr class="hover:bg-gray-100 transition">
+              <td class="border-t p-4 font-medium">User Name:</td>
+              <td class="border-t p-4"></td>
+            </tr>
+            <tr class="hover:bg-gray-100 transition">
+              <td class="border-t p-4 font-medium">Account Number:</td>
+              <td class="border-t p-4"></td>
+            </tr>
+            <tr class="hover:bg-gray-100 transition">
+              <td class="border-t p-4 font-medium">Balance:</td>
+              <td class="border-t p-4"></td>
+            </tr>
+          </tbody>
+        </table>
+        <div
+          class="max-w-md mx-auto mt-10 bg-white p-6 rounded-xl shadow-lg space-y-4 border border-gray-200"
+        >
+          <h2 class="text-2xl font-bold text-center text-[#1B3C53] mb-4">
+            Transfer Money
+          </h2>
+
+          <div>
+            <label
+              for="to_account"
+              class="block text-sm font-medium text-gray-700 mb-1"
+              >To Account</label
+            >
+            <input
+              type="number"
+              id="to_account"
+              name="to_account"
+              class="w-full text-black px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Enter recipient account number"
+            />
+          </div>
+
+          <div>
+            <label
+              for="amount"
+              class="block text-sm font-medium text-gray-700 mb-1"
+              >Amount</label
+            >
+            <input
+              type="number"
+              id="amount"
+              name="amount"
+              class="w-full text-black px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Enter amount"
+            />
+          </div>
+          <button
+            type="submit"
+            class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg transition duration-300"
+          >
+            Send
+          </button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
